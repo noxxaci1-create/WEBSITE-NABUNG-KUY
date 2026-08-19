@@ -1,6 +1,3 @@
-// ===========================================================
-// DATA
-// ===========================================================
 let saldo = 0;
 let transaksi = [];
 let targets = [];
@@ -11,9 +8,6 @@ let uangKeluar = 0;
 let userName = 'Pengguna NABUNGKUY';
 let avatarUrl = '';
 
-// ===========================================================
-// SPLASH
-// ===========================================================
 function hideSplash() {
   document.getElementById('splash').classList.add('hide');
   setTimeout(() => {
@@ -21,9 +15,6 @@ function hideSplash() {
   }, 700);
 }
 
-// ===========================================================
-// LOAD & SAVE
-// ===========================================================
 function loadData() {
   try {
     const data = JSON.parse(localStorage.getItem('nabungkuyData'));
@@ -63,9 +54,6 @@ function saveData() {
   }));
 }
 
-// ===========================================================
-// UPDATE UI
-// ===========================================================
 function updateUI() {
   document.getElementById('totalSaldo').textContent = formatRupiah(saldo);
   document.querySelector('#totalTabungan h2').textContent = formatRupiah(saldo);
@@ -75,7 +63,6 @@ function updateUI() {
   document.getElementById('statKeluar').textContent = formatRupiah(uangKeluar);
   document.getElementById('statSaldo').textContent = formatRupiah(saldo);
 
-  // Riwayat
   const listTransaksiEl = document.getElementById('listTransaksi');
   if (transaksi.length === 0) {
     listTransaksiEl.innerHTML =
@@ -95,7 +82,6 @@ function updateUI() {
         `).join('');
   }
 
-  // Target di Beranda
   const targetBerandaEl = document.getElementById('targetBerandaList');
   if (targets.length === 0) {
     targetBerandaEl.innerHTML =
@@ -116,7 +102,6 @@ function updateUI() {
     }).join('');
   }
 
-  // Nabung Hari Ini
   const hariEl = document.getElementById('nabungHariIni');
   const today = new Date().toDateString();
   if (tanggalNabung === today && tabunganHari > 0) {
@@ -137,17 +122,11 @@ function updateUI() {
   saveData();
 }
 
-// ===========================================================
-// FORMAT RUPIAH
-// ===========================================================
 function formatRupiah(angka) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 })
     .format(angka);
 }
 
-// ===========================================================
-// POPUP
-// ===========================================================
 function showPopup(type) {
   if (type === 'nabung') {
     document.getElementById('popupNabung').style.display = 'flex';
@@ -160,9 +139,6 @@ function closePopup() {
   document.querySelectorAll('.popup-modal').forEach(el => el.style.display = 'none');
 }
 
-// ===========================================================
-// FUNGSI UTAMA
-// ===========================================================
 function tambahSaldo() {
   const j = prompt('Masukkan jumlah nabungan (Rp):');
   if (j && !isNaN(j) && parseInt(j) > 0) {
@@ -233,9 +209,6 @@ function tambahUangKeluar() {
   }
 }
 
-// ===========================================================
-// TARGET
-// ===========================================================
 function bukaFormTarget() {
   const name = prompt('Masukkan nama target:');
   if (!name) return;
@@ -250,9 +223,6 @@ function hapusTarget(idx) {
     updateUI(); }
 }
 
-// ===========================================================
-// PROFIL
-// ===========================================================
 function gantiNama() {
   const nama = document.getElementById('inputNama').value.trim();
   if (nama) {
@@ -319,9 +289,6 @@ function resetData() {
   }
 }
 
-// ===========================================================
-// NAVIGASI
-// ===========================================================
 function showTab(tab) {
   const map = {
     'beranda': ['berandaSection'],
@@ -336,8 +303,5 @@ function showTab(tab) {
   document.getElementById('settingsPanel').style.display = 'none';
 }
 
-// ===========================================================
-// INIT
-// ===========================================================
 loadData();
 showTab('beranda');
