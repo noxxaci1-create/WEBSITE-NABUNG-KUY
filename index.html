@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NABUNGKUY - Aplikasi Nabung </title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo-container">
+                <i class="fas fa-piggy-bank logo-icon"></i>
+                <h1>NABUNGKUY</h1>
+            </div>
+            <div class="user-profile" onclick="showTab('profile')">
+                <i class="fas fa-user-circle user-icon"></i>
+            </div>
+        </div>
+        <div class="saldo-container">
+            <p>Total Nabungan </p>
+            <h2 id="totalSaldo">Rp 0</h2>
+            <div class="saldo-actions">
+                <button onclick="tambahSaldo()"><i class="fas fa-plus-circle"></i> Tambah</button>
+                <button onclick="kurangiSaldo()"><i class="fas fa-minus-circle"></i> Kurangi</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- BERANDA -->
+        <section id="berandaSection">
+            <div class="ringkasan-hari">
+                <h3><i class="fas fa-calendar-day"></i> Nabung Hari Ini</h3>
+                <div id="nabungHariIni" class="nabung-hari-card">
+                    <p>Belum nabung hari ini.</p>
+                    <button onclick="nabungHari()"><i class="fas fa-plus-circle"></i> Nabung Sekarang</button>
+                </div>
+            </div>
+
+            <div class="cash-flow">
+                <div class="cash-in">
+                    <h4><i class="fas fa-arrow-down" style="color:#00c853;"></i> Uang Masuk</h4>
+                    <p id="totalMasuk">Rp 0</p>
+                    <button onclick="tambahUangMasuk()"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+                <div class="cash-out">
+                    <h4><i class="fas fa-arrow-up" style="color:#ff3d00;"></i> Uang Keluar</h4>
+                    <p id="totalKeluar">Rp 0</p>
+                    <button onclick="tambahUangKeluar()"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="ringkasan-target">
+                <h3><i class="fas fa-bullseye"></i> Target Terdekat</h3>
+                <div id="targetTerdekat" class="target-terdekat-card">
+                    <p>Belum ada target.</p>
+                </div>
+            </div>
+            <div class="ringkasan-tabungan">
+                <h3><i class="fas fa-coins"></i> Total Tabungan</h3>
+                <div id="totalTabungan" class="total-tabungan-card">
+                    <h2>Rp 0</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIWAYAT -->
+        <section id="riwayatSection" style="display:none;">
+            <h3><i class="fas fa-clock-rotate-left"></i> Riwayat Transaksi</h3>
+            <div id="listTransaksi" class="list-transaksi">
+                <p class="empty-state"><i class="fas fa-inbox"></i> Belum ada riwayat</p>
+            </div>
+            <div class="riwayat-stats">
+                <div class="stat-item">
+                    <span>Total Masuk</span>
+                    <strong id="statMasuk">Rp 0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Total Keluar</span>
+                    <strong id="statKeluar">Rp 0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Saldo Akhir</span>
+                    <strong id="statSaldo">Rp 0</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- TARGET -->
+        <section id="targetSection" style="display:none;">
+            <h3><i class="fas fa-bullseye"></i> Target Nabung</h3>
+            <div class="target-card">
+                <input type="text" id="targetName" placeholder="Nama target" />
+                <input type="number" id="targetAmount" placeholder="Jumlah target (Rp)" />
+                <input type="file" id="targetImage" accept="image/*" />
+                <button onclick="setTarget()"><i class="fas fa-plus"></i> Tambah Target</button>
+            </div>
+            <div id="listTarget" class="list-target"></div>
+        </section>
+
+        <!-- PROFIL -->
+        <section id="profileSection" style="display:none;">
+            <div class="profile-header">
+                <h3><i class="fas fa-user"></i> Profil</h3>
+                <i class="fas fa-cog settings-gear" onclick="toggleSettings()"></i>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-avatar" onclick="document.getElementById('uploadAvatar').click()">
+                    <img src="https://ui-avatars.com/api/?name=User&background=6C63FF&color=fff&size=100" alt="Avatar" id="avatarImg" />
+                    <div class="avatar-overlay"><i class="fas fa-camera"></i></div>
+                    <input type="file" id="uploadAvatar" accept="image/*" style="display:none;" onchange="uploadAvatar(event)" />
+                </div>
+                <div class="profile-name">
+                    <h4 id="profileName">Pengguna NABUNGKUY</h4>
+                    <p><i class="fas fa-calendar-alt"></i> Bergabung: 2025</p>
+                </div>
+            </div>
+
+            <div id="settingsPanel" style="display:none;">
+                <div class="settings-card">
+                    <h4><i class="fas fa-user-edit"></i> Ganti Nama</h4>
+                    <div class="setting-item">
+                        <input type="text" id="inputNama" placeholder="Nama baru" />
+                        <button onclick="gantiNama()"><i class="fas fa-check"></i> Simpan</button>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h4><i class="fas fa-book-open"></i> Cara Pemakaian</h4>
+                    <button onclick="showCaraPemakaian()" class="full-btn"><i class="fas fa-eye"></i> Lihat Cara</button>
+                </div>
+
+                <div class="settings-card">
+                    <h4><i class="fas fa-code"></i> Pembuat</h4>
+                    <div class="developer-credit">
+                        <p><strong>@Muhammad Gibran Al-Gifari</strong></p>
+                        <div class="dev-links">
+                            <a href="https://instagram.com/mhmmdgbran_15" target="_blank" class="dev-link instagram">
+                                <i class="fab fa-instagram"></i> @mhmmdgbran_15
+                            </a>
+                            <a href="https://wa.me/6283177540442?text=Halo%20Kak%20Gibran%2C%20saya%20mau%20memberi%20saran%20untuk%20NABUNGKUY" target="_blank" class="dev-link whatsapp">
+                                <i class="fab fa-whatsapp"></i> +62831-7754-0442
+                            </a>
+                        </div>
+                        <p style="margin-top:10px;font-size:12px;color:#888;">Kirim saran atau kritik</p>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h4><i class="fas fa-palette"></i> Ganti Warna</h4>
+                    <div class="color-options">
+                        <button class="color-btn" style="background:#6C63FF;" onclick="gantiWarna('#6C63FF')"></button>
+                        <button class="color-btn" style="background:#FF6B6B;" onclick="gantiWarna('#FF6B6B')"></button>
+                        <button class="color-btn" style="background:#4ECDC4;" onclick="gantiWarna('#4ECDC4')"></button>
+                        <button class="color-btn" style="background:#FF9F1C;" onclick="gantiWarna('#FF9F1C')"></button>
+                        <button class="color-btn" style="background:#A855F7;" onclick="gantiWarna('#A855F7')"></button>
+                        <button class="color-btn" style="background:#3B82F6;" onclick="gantiWarna('#3B82F6')"></button>
+                        <button class="color-btn" style="background:#EF4444;" onclick="gantiWarna('#EF4444')"></button>
+                        <button class="color-btn" style="background:#10B981;" onclick="gantiWarna('#10B981')"></button>
+                    </div>
+                </div>
+
+                <div class="settings-card" style="border:1px solid #ff3d00;">
+                    <h4 style="color:#ff3d00;"><i class="fas fa-trash-alt"></i> Reset Data</h4>
+                    <button onclick="resetData()" class="full-btn" style="background:#ff3d00;"><i class="fas fa-trash"></i> Reset Semua</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- POPUP MODAL NABUNG -->
+    <div id="popupNabung" class="popup-modal" style="display:none;">
+        <div class="popup-content" style="border-top: 6px solid #00c853;">
+            <div class="popup-icon" style="color:#00c853;">
+                <i class="fas fa-piggy-bank fa-4x"></i>
+            </div>
+            <h3>Terimakasih Sudah Menabung</h3>
+            <p>Dan semoga Cepat Tercapai Sesuatu Yang Di Inginkan</p>
+            <button onclick="closePopup()" style="background:#00c853;">Oke, Semangat!</button>
+        </div>
+    </div>
+
+    <!-- POPUP MODAL KURANGI -->
+    <div id="popupKurangi" class="popup-modal" style="display:none;">
+        <div class="popup-content" style="border-top: 6px solid #ff3d00;">
+            <div class="popup-icon" style="color:#ff3d00;">
+                <i class="fas fa-exclamation-circle fa-4x"></i>
+            </div>
+            <h3>Kenapa Jumlahnya Di Tabungan Di kurangin?</h3>
+            <p>Lagi Butuh Dana Urgent Ya?? Okaii Gapapa Semangatt Nabungnya</p>
+            <button onclick="closePopup()" style="background:#ff3d00;">Iya, Gapapa</button>
+        </div>
+    </div>
+
+    <!-- MODAL CARA -->
+    <div id="caraModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><i class="fas fa-book-open"></i> Cara Pemakaian</h4>
+                <span class="close" onclick="closeCara()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <ol>
+                    <li><i class="fas fa-plus-circle"></i> <strong>Tambah:</strong> Tambah saldo</li>
+                    <li><i class="fas fa-minus-circle"></i> <strong>Kurangi:</strong> Kurangi saldo</li>
+                    <li><i class="fas fa-arrow-down"></i> <strong>Uang Masuk:</strong> Catat pemasukan</li>
+                    <li><i class="fas fa-arrow-up"></i> <strong>Uang Keluar:</strong> Catat pengeluaran</li>
+                    <li><i class="fas fa-bullseye"></i> <strong>Target:</strong> Buat target + gambar</li>
+                    <li><i class="fas fa-calendar-day"></i> <strong>Nabung Harian:</strong> Setoran harian</li>
+                    <li><i class="fas fa-cog"></i> <strong>Pengaturan:</strong> Ganti nama, warna, dll</li>
+                    <li><i class="fas fa-camera"></i> <strong>Foto Profil:</strong> Klik avatar untuk upload</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showTab('beranda')">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </div>
+        <div class="nav-item" onclick="showTab('riwayat')">
+            <i class="fas fa-clock"></i>
+            <span>Riwayat</span>
+        </div>
+        <div class="nav-item" onclick="showTab('target')">
+            <i class="fas fa-bullseye"></i>
+            <span>Target</span>
+        </div>
+        <div class="nav-item" onclick="showTab('profile')">
+            <i class="fas fa-user"></i>
+            <span>Profil</span>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
