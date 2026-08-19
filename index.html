@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NABUNGKUY</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ SPLASH SCREEN ============ -->
+  <div id="splash">
+    <div class="splash-icon">
+      <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" stroke="#FFD700" stroke-width="4" />
+        <path d="M50 20L55 38H74L59 49L65 67L50 56L35 67L41 49L26 38H45L50 20Z" fill="#FFD700" />
+        <circle cx="40" cy="42" r="4" fill="#FFD700" />
+        <circle cx="60" cy="42" r="4" fill="#FFD700" />
+        <path d="M40 56C42 60 48 63 50 63C52 63 58 60 60 56" stroke="#FFD700" stroke-width="3" stroke-linecap="round" />
+      </svg>
+    </div>
+    <div class="splash-title">NABUNGKUY</div>
+    <div class="splash-sub">Kelola tabungan visualmu dengan mudah dan semangat!</div>
+    <div class="splash-quote">"Jangan tunggu kaya, mulai nabung dari sekarang. Setiap rupiah adalah langkah menuju mimpimu."</div>
+    <button class="splash-btn" onclick="hideSplash()">Mulai Nabung</button>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="header-top">
+      <div class="logo-container">
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="48" stroke="#FFD700" stroke-width="4" />
+          <path d="M50 20L55 38H74L59 49L65 67L50 56L35 67L41 49L26 38H45L50 20Z" fill="#FFD700" />
+          <circle cx="40" cy="42" r="4" fill="#FFD700" />
+          <circle cx="60" cy="42" r="4" fill="#FFD700" />
+          <path d="M40 56C42 60 48 63 50 63C52 63 58 60 60 56" stroke="#FFD700" stroke-width="3" stroke-linecap="round" />
+        </svg>
+        <h1>NABUNGKUY</h1>
+      </div>
+      <div class="user-icon" onclick="showTab('profile')">
+        <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="35" r="25" fill="white" fill-opacity="0.8" />
+          <circle cx="50" cy="85" r="35" fill="white" fill-opacity="0.8" />
+        </svg>
+      </div>
+    </div>
+    <div class="saldo-container">
+      <p>Total Nabungan Visual</p>
+      <h2 id="totalSaldo">Rp 0</h2>
+      <div class="saldo-actions">
+        <button onclick="tambahSaldo()">+ Tambah</button>
+        <button onclick="kurangiSaldo()">- Kurangi</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+
+    <!-- ===== BERANDA ===== -->
+    <section id="berandaSection">
+
+      <!-- QUICK NABUNG (muncul cuma kalau ada target) -->
+      <div id="quickNabungContainer" style="display:none; margin-bottom:6px;">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 10L60 40H90L67 58L75 88L50 70L25 88L33 58L10 40H40L50 10Z" fill="#6C63FF" />
+          </svg>
+          Cepat Nabung
+        </h3>
+        <div class="quick-nabung" id="quickNabung">
+          <button class="quick-btn" onclick="quickNabung(10000)">Rp10.000</button>
+          <button class="quick-btn" onclick="quickNabung(25000)">Rp25.000</button>
+          <button class="quick-btn" onclick="quickNabung(50000)">Rp50.000</button>
+          <button class="quick-btn" onclick="quickNabung(100000)">Rp100.000</button>
+          <button class="quick-btn" onclick="quickNabung(250000)">Rp250.000</button>
+          <button class="quick-btn" onclick="quickNabung(500000)">Rp500.000</button>
+          <button class="quick-btn" onclick="quickNabung(1000000)">Rp1.000.000</button>
+        </div>
+      </div>
+
+      <!-- NABUNG HARI INI -->
+      <div style="margin-top:8px;">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="15" y="20" width="70" height="60" rx="10" stroke="#6C63FF" stroke-width="6" />
+            <line x1="30" y1="10" x2="30" y2="30" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            <line x1="70" y1="10" x2="70" y2="30" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            <line x1="25" y1="50" x2="75" y2="50" stroke="#6C63FF" stroke-width="4" stroke-linecap="round" />
+            <line x1="25" y1="65" x2="55" y2="65" stroke="#6C63FF" stroke-width="4" stroke-linecap="round" />
+          </svg>
+          Nabung Hari Ini
+        </h3>
+        <div id="nabungHariIni" class="nabung-hari-card">
+          <p>Belum nabung hari ini.</p>
+          <button onclick="nabungHari()">+ Nabung Sekarang</button>
+        </div>
+      </div>
+
+      <!-- PERIODE TARGET -->
+      <div style="margin-top:12px;" id="periodeContainer">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#6C63FF" stroke-width="6" />
+            <path d="M50 20V50L65 65" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+          </svg>
+          Periode Target
+        </h3>
+        <div class="periode-options">
+          <button class="periode-btn" data-periode="hari" onclick="pilihPeriode('hari')">Per Hari</button>
+          <button class="periode-btn" data-periode="minggu" onclick="pilihPeriode('minggu')">Per Minggu</button>
+          <button class="periode-btn" data-periode="bulan" onclick="pilihPeriode('bulan')">Per Bulan</button>
+        </div>
+        <div id="infoPeriode" style="margin-top:8px;font-size:13px;color:#888;text-align:center;"></div>
+      </div>
+
+      <!-- ARUS UANG -->
+      <div style="margin-top:12px;">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#6C63FF" stroke-width="6" />
+            <path d="M35 55L50 40L65 55" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M35 70L50 55L65 70" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Arus Uang
+        </h3>
+        <div class="cash-flow">
+          <div class="cash-in">
+            <h4>Uang Masuk</h4>
+            <p id="totalMasuk">Rp 0</p>
+            <button onclick="tambahUangMasuk()">+ Tambah</button>
+          </div>
+          <div class="cash-out">
+            <h4>Uang Keluar</h4>
+            <p id="totalKeluar">Rp 0</p>
+            <button onclick="tambahUangKeluar()">+ Tambah</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARGET DI BERANDA -->
+      <div style="margin-top:12px;">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#6C63FF" stroke-width="6" />
+            <circle cx="50" cy="50" r="20" stroke="#6C63FF" stroke-width="6" />
+            <circle cx="50" cy="50" r="6" fill="#6C63FF" />
+          </svg>
+          Target Nabung
+        </h3>
+        <div class="target-beranda">
+          <div id="targetBerandaList">
+            <p style="text-align:center;color:#888;font-size:13px;">Belum ada target. Buat target sekarang!</p>
+          </div>
+          <button class="btn-tambah-target" onclick="bukaFormTarget()">+ Buat Target</button>
+        </div>
+      </div>
+
+      <!-- TOTAL TABUNGAN -->
+      <div style="margin-top:12px;">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" stroke="#6C63FF" stroke-width="6" />
+            <circle cx="50" cy="35" r="15" stroke="#6C63FF" stroke-width="6" />
+            <circle cx="50" cy="80" r="18" stroke="#6C63FF" stroke-width="6" />
+          </svg>
+          Total Tabungan
+        </h3>
+        <div id="totalTabungan" class="total-tabungan-card">
+          <h2>Rp 0</h2>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== RIWAYAT ===== -->
+    <section id="riwayatSection" style="display:none;">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="#6C63FF" stroke-width="6" />
+          <path d="M50 30V50L65 62" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+          <path d="M25 25L40 40" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+        </svg>
+        Riwayat Transaksi
+      </h3>
+      <div id="listTransaksi" class="list-transaksi">
+        <p class="empty-state">
+          <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="30" width="60" height="50" rx="8" stroke="#CCC" stroke-width="6" />
+            <line x1="30" y1="45" x2="70" y2="45" stroke="#CCC" stroke-width="4" stroke-linecap="round" />
+            <line x1="30" y1="60" x2="55" y2="60" stroke="#CCC" stroke-width="4" stroke-linecap="round" />
+          </svg>
+          Belum ada riwayat
+        </p>
+      </div>
+      <div class="riwayat-stats">
+        <div class="stat-item">
+          <span>Total Masuk</span>
+          <strong id="statMasuk">Rp 0</strong>
+        </div>
+        <div class="stat-item">
+          <span>Total Keluar</span>
+          <strong id="statKeluar">Rp 0</strong>
+        </div>
+        <div class="stat-item">
+          <span>Saldo Akhir</span>
+          <strong id="statSaldo">Rp 0</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROFIL ===== -->
+    <section id="profileSection" style="display:none;">
+      <div class="profile-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="35" r="25" stroke="#6C63FF" stroke-width="6" />
+            <circle cx="50" cy="85" r="35" stroke="#6C63FF" stroke-width="6" />
+          </svg>
+          Profil
+        </h3>
+        <span class="settings-gear" onclick="toggleSettings()">
+          <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="15" stroke="#6C63FF" stroke-width="6" />
+            <path d="M50 20L50 35" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            <path d="M50 65L50 80" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            <path d="M20 50L35 50" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            <path d="M65 50L80 50" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+          </svg>
+        </span>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-avatar" onclick="document.getElementById('uploadAvatar').click()">
+          <img src="https://ui-avatars.com/api/?name=User&background=6C63FF&color=fff&size=100" alt="Avatar" id="avatarImg" />
+          <div class="avatar-overlay">
+            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="45" stroke="white" stroke-width="6" />
+              <circle cx="50" cy="40" r="15" stroke="white" stroke-width="6" />
+              <circle cx="50" cy="85" r="20" stroke="white" stroke-width="6" />
+            </svg>
+          </div>
+          <input type="file" id="uploadAvatar" accept="image/*" style="display:none;" onchange="uploadAvatar(event)" />
+        </div>
+        <div class="profile-name">
+          <h4 id="profileName">Pengguna NABUNGKUY</h4>
+          <p>Bergabung: 2025</p>
+        </div>
+      </div>
+
+      <div id="settingsPanel" style="display:none;">
+        <div class="settings-card">
+          <h4>
+            <svg width="18" height="18" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 80L35 65" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+              <path d="M80 20L65 35" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+              <path d="M50 15V40" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+              <path d="M50 60V85" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            </svg>
+            Ganti Nama
+          </h4>
+          <div class="setting-item">
+            <input type="text" id="inputNama" placeholder="Nama baru" />
+            <button onclick="gantiNama()">Simpan</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h4>
+            <svg width="18" height="18" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="40" stroke="#6C63FF" stroke-width="6" />
+              <path d="M50 30V50L65 62" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+              <path d="M30 30L45 45" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            </svg>
+            Cara Pemakaian
+          </h4>
+          <button onclick="showCaraPemakaian()" class="full-btn">Lihat Cara</button>
+        </div>
+
+        <div class="settings-card">
+          <h4>
+            <svg width="18" height="18" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="60" height="60" rx="8" stroke="#6C63FF" stroke-width="6" />
+              <path d="M35 20V10H65V20" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+              <line x1="35" y1="45" x2="65" y2="45" stroke="#6C63FF" stroke-width="4" stroke-linecap="round" />
+              <line x1="35" y1="60" x2="55" y2="60" stroke="#6C63FF" stroke-width="4" stroke-linecap="round" />
+            </svg>
+            Pembuat
+          </h4>
+          <div class="developer-credit">
+            <p><strong>@Muhammad Gibran Al-Gifari</strong></p>
+            <div class="dev-links">
+              <a href="https://instagram.com/mhmmdgbran_15" target="_blank" class="dev-link instagram">IG @mhmmdgbran_15</a>
+              <a href="https://wa.me/6283177540442?text=Halo%20Kak%20Gibran%2C%20saya%20mau%20memberi%20saran%20untuk%20NABUNGKUY" target="_blank" class="dev-link whatsapp">WA +62831-7754-0442</a>
+            </div>
+            <p style="margin-top:10px;font-size:12px;color:#888;">Kirim saran atau kritik</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h4>
+            <svg width="18" height="18" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="40" stroke="#6C63FF" stroke-width="6" />
+              <circle cx="50" cy="50" r="20" stroke="#6C63FF" stroke-width="4" />
+              <circle cx="50" cy="50" r="8" fill="#6C63FF" />
+            </svg>
+            Ganti Warna
+          </h4>
+          <div class="color-options">
+            <button class="color-btn" style="background:#6C63FF;" onclick="gantiWarna('#6C63FF')"></button>
+            <button class="color-btn" style="background:#FF6B6B;" onclick="gantiWarna('#FF6B6B')"></button>
+            <button class="color-btn" style="background:#4ECDC4;" onclick="gantiWarna('#4ECDC4')"></button>
+            <button class="color-btn" style="background:#FF9F1C;" onclick="gantiWarna('#FF9F1C')"></button>
+            <button class="color-btn" style="background:#A855F7;" onclick="gantiWarna('#A855F7')"></button>
+            <button class="color-btn" style="background:#3B82F6;" onclick="gantiWarna('#3B82F6')"></button>
+            <button class="color-btn" style="background:#EF4444;" onclick="gantiWarna('#EF4444')"></button>
+            <button class="color-btn" style="background:#10B981;" onclick="gantiWarna('#10B981')"></button>
+          </div>
+        </div>
+
+        <div class="settings-card" style="border:1px solid #ff3d00;">
+          <h4 style="color:#ff3d00;">
+            <svg width="18" height="18" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="30" width="60" height="50" rx="8" stroke="#ff3d00" stroke-width="6" />
+              <line x1="35" y1="45" x2="65" y2="45" stroke="#ff3d00" stroke-width="4" stroke-linecap="round" />
+              <line x1="35" y1="60" x2="55" y2="60" stroke="#ff3d00" stroke-width="4" stroke-linecap="round" />
+            </svg>
+            Reset Data
+          </h4>
+          <button onclick="resetData()" class="full-btn" style="background:#ff3d00;">Reset Semua</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ POPUP NABUNG ============ -->
+  <div id="popupNabung" class="popup-modal" style="display:none;">
+    <div class="popup-content" style="border-top:6px solid #00c853;">
+      <div class="popup-icon">
+        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="#00c853" stroke-width="4" />
+          <path d="M50 20L55 38H74L59 49L65 67L50 56L35 67L41 49L26 38H45L50 20Z" fill="#00c853" />
+        </svg>
+      </div>
+      <h3>Terimakasih Sudah Menabung</h3>
+      <p>Dan semoga Cepat Tercapai Sesuatu Yang Di Inginkan</p>
+      <button onclick="closePopup()" style="background:#00c853;">Oke, Semangat!</button>
+    </div>
+  </div>
+
+  <!-- ============ POPUP KURANGI ============ -->
+  <div id="popupKurangi" class="popup-modal" style="display:none;">
+    <div class="popup-content" style="border-top:6px solid #ff3d00;">
+      <div class="popup-icon">
+        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="#ff3d00" stroke-width="4" />
+          <path d="M30 50H70" stroke="#ff3d00" stroke-width="6" stroke-linecap="round" />
+          <circle cx="50" cy="35" r="10" stroke="#ff3d00" stroke-width="4" />
+        </svg>
+      </div>
+      <h3>Kenapa Jumlahnya Di Tabungan Di kurangin?</h3>
+      <p>Lagi Butuh Dana Urgent Ya?? Okaii Gapapa Semangatt Nabungnya</p>
+      <button onclick="closePopup()" style="background:#ff3d00;">Iya, Gapapa</button>
+    </div>
+  </div>
+
+  <!-- ============ MODAL CARA ============ -->
+  <div id="caraModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#6C63FF" stroke-width="6" />
+            <path d="M50 30V50L65 62" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+            <path d="M30 30L45 45" stroke="#6C63FF" stroke-width="6" stroke-linecap="round" />
+          </svg>
+          Cara Pemakaian
+        </h4>
+        <span class="close" onclick="closeCara()">✕</span>
+      </div>
+      <div class="modal-body">
+        <ol>
+          <li><span class="icon">+</span> <strong>Tambah:</strong> Tambah saldo visual</li>
+          <li><span class="icon">-</span> <strong>Kurangi:</strong> Kurangi saldo</li>
+          <li><span class="icon">↓</span> <strong>Uang Masuk:</strong> Catat pemasukan</li>
+          <li><span class="icon">↑</span> <strong>Uang Keluar:</strong> Catat pengeluaran</li>
+          <li><span class="icon">*</span> <strong>Target:</strong> Buat target</li>
+          <li><span class="icon">#</span> <strong>Nabung Harian:</strong> Setoran harian</li>
+          <li><span class="icon">G</span> <strong>Pengaturan:</strong> Ganti nama, warna, dll</li>
+          <li><span class="icon">C</span> <strong>Foto Profil:</strong> Klik avatar untuk upload</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BOTTOM NAV ============ -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="showTab('beranda')">
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 45L50 15L85 45" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M30 35V75H70V35" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="label">Beranda</span>
+    </div>
+    <div class="nav-item" onclick="showTab('riwayat')">
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="6" />
+        <path d="M50 30V50L65 62" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+      </svg>
+      <span class="label">Riwayat</span>
+    </div>
+    <div class="nav-item" onclick="showTab('profile')">
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="35" r="25" stroke="currentColor" stroke-width="6" />
+        <circle cx="50" cy="85" r="35" stroke="currentColor" stroke-width="6" />
+      </svg>
+      <span class="label">Profil</span>
+    </div>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
